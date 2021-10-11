@@ -8,6 +8,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+
     
     var loginTextField: UITextField = {
         let textField = UITextField()
@@ -71,6 +72,7 @@ class LoginViewController: UIViewController {
         signUpButton.addTarget(self, action: #selector(signUpDidTap), for: .touchUpInside)
         
         title = "KeyChainTest"
+        navigationItem.hidesBackButton = true
     }
     
     func addConstrains() {
