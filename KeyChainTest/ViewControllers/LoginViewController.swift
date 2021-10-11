@@ -9,14 +9,6 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    let titleLabel: UILabel = {
-       let label = UILabel()
-        label.font = UIFont(name: "Hiragino Maru Gothic ProN", size: 17)
-        label.text = "KeyChainTest"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     var loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "login"
@@ -67,7 +59,6 @@ class LoginViewController: UIViewController {
     }
     
     func configureUI() {
-        view.addSubview(titleLabel)
         view.addSubview(loginTextField)
         view.addSubview(passwordTextField)
         view.addSubview(signInButton)
@@ -78,11 +69,11 @@ class LoginViewController: UIViewController {
         
         signInButton.addTarget(self, action: #selector(signInDidTap), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpDidTap), for: .touchUpInside)
+        
+        title = "KeyChainTest"
     }
     
     func addConstrains() {
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
@@ -111,8 +102,9 @@ class LoginViewController: UIViewController {
             let password = try PasswordService.shared.keyChain.getString(login)
             
             if password == passwordFromTextField {
-//                messageLabel.text = " зашел "
-//                messageLabel.isHidden = false
+                let mainController = MainViewController()
+                mainController.titleLabel.text = "\(login) logined"
+                navigationController?.pushViewController(mainController, animated: true)
             } else {
                 messageLabel.text = "incorrect password or login"
                 messageLabel.isHidden = false
@@ -140,8 +132,9 @@ class LoginViewController: UIViewController {
                 
             do {
                 try PasswordService.shared.keyChain.set(passwordFromTextField, key: login)
-//                messageLabel.text = "успешно "
-//                messageLabel.isHidden = false
+                messageLabel.text = "Registred"
+                messageLabel.textColor = . green
+                messageLabel.isHidden = false
             } catch {
                 print(error)
             }
